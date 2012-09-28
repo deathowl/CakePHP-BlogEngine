@@ -13,7 +13,7 @@ class UsersController extends AppController {
 
     public function beforeFilter() {
         parent::beforeFilter();
-        $this->Auth->allow('register', 'logout');
+        $this->Auth->allow('register', 'logout','listall','delete'); //remove delete after login works!
     }
 
     public function login() {
@@ -49,6 +49,7 @@ class UsersController extends AppController {
             if ($this->User->save($this->request->data)) { //It IS safe to save the request data
                 //Because the form and Model validates the data. 
                 $this->Session->setFlash(__('The user has been saved'));
+                $this->Auth->Login($this->User);
                 $this->redirect(array('action' => 'index'));
             } else {
                 $this->Session->setFlash(__('The user could not be saved. Please, try again.'));
