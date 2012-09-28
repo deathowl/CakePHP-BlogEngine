@@ -1,7 +1,12 @@
 <?php
 class PostsController extends AppController {
-    public $helpers = array('Html', 'Form', 'Session');
-    public $components = array('Session');
+    //public $helpers = array('Html', 'Form');
+
+
+
+    public function beforeFilter() {
+        $this->Auth->allow('index', 'view'); //Allow users, who are not logged in view the index and details page .
+    }
 
     public function index() {
         $this->set('posts', $this->Post->find('all'));
@@ -24,4 +29,5 @@ class PostsController extends AppController {
             }
         }
     }
+  
 }

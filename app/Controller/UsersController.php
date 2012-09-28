@@ -2,11 +2,19 @@
 // app/Controller/UsersController.php
 class UsersController extends AppController {
 
+     public $components = array(
+        'Session',
+        'Auth' => array(
+            'loginRedirect' => array('controller' => 'posts', 'action' => 'index'),
+            'logoutRedirect' => array('controller' => 'posts', 'action' => 'index')
+        )
+    );
+
+
     public function beforeFilter() {
         parent::beforeFilter();
         $this->Auth->allow('register', 'logout');
     }
-
 
     public function login() {
         if ($this->request->is('post')) {
@@ -22,12 +30,12 @@ class UsersController extends AppController {
         $this->redirect($this->Auth->logout());
     }
 
-    public function index() {
+    public function listall() {//TODO: Filter rights, so only users with admin rights may list all users
         $this->User->recursive = 0;
         $this->set('users', $this->paginate());
     }
 
-    public function view($id = null) {
+    public function view($id = null) {//TODO: Filter rights, so only users with admin rights may view user detail page
         $this->User->id = $id;
         if (!$this->User->exists()) {
             throw new NotFoundException(__('Invalid user'));
@@ -38,7 +46,8 @@ class UsersController extends AppController {
     public function register() {
         if ($this->request->is('post')) {
             $this->User->create();
-            if ($this->User->save($this->request->data)) {
+            if ($this->User->save($this->request->data)) { //It IS safe to save the request data
+                //Because the form and Model validates the data. 
                 $this->Session->setFlash(__('The user has been saved'));
                 $this->redirect(array('action' => 'index'));
             } else {
@@ -47,7 +56,7 @@ class UsersController extends AppController {
         }
     }
 
-    public function edit($id = null) {
+    public function edit($id = null) {//TODO: Filter rights, so only users with admin rights may edit users
         $this->User->id = $id;
         if (!$this->User->exists()) {
             throw new NotFoundException(__('Invalid user'));
@@ -65,7 +74,7 @@ class UsersController extends AppController {
         }
     }
 
-    public function delete($id = null) {
+    public function delete($id = null) {//TODO: Filter rights, so only users with admin rights may delete user
         if (!$this->request->is('post')) {
             throw new MethodNotAllowedException();
         }

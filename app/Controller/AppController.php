@@ -1,4 +1,4 @@
-<?php
+=<?php
 /**
  * Application level Controller
  *
@@ -21,6 +21,8 @@
  */
 
 App::uses('Controller', 'Controller');
+App::uses('AuthComponent', 'Controller/Component');
+
 
 /**
  * Application Controller
@@ -32,4 +34,15 @@ App::uses('Controller', 'Controller');
  * @link http://book.cakephp.org/2.0/en/controllers.html#the-app-controller
  */
 class AppController extends Controller {
+	/*The default values for the components array are added here.
+	  Since we work with OOP paradigm, all  derived classes will be able to access it.
+	*/
+	  	public $components = array(
+        'Session',
+        'Auth' => array(
+        'loginRedirect' => array('controller' => 'posts', 'action' => 'index'),
+        'logoutRedirect' => array('controller' => 'pages', 'action' => 'display', 'home'),
+        'authorize' => array('Controller') // Added this line
+    )
+);
 }
