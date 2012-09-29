@@ -12,12 +12,13 @@ class UsersController extends AppController {
 
     public function beforeFilter() {
         parent::beforeFilter();
-        $this->Auth->allow('register', 'logout','listall','login','edit');
+        $this->Auth->allow('register','index','login','logout');
     }
 
     public function login() {
         if ($this->request->is('post')) {
           if ($this->Auth->login()) {
+                    
              $this->redirect($this->Auth->redirect());
           } else {
                $this->Session->setFlash(__('Invalid username or password, try again'));
@@ -26,10 +27,17 @@ class UsersController extends AppController {
     }
 
     public function logout() {
-        $this->redirect($this->Auth->logout());
+        if($this->Auth->logout()){
+            $this->redirect('/');
+        }
+
     }
 
-    public function listall() {//TODO: Filter rights, so only users with admin rights may list all users
+    public function index() {
+    // Filter rights, so only users with admin rights may list all users
+    if ($this->Auth->user('role')!='admin') {
+            $this->redirect('/');
+        }
         $this->User->recursive = 0;
         $this->set('users', $this->paginate());
     }
