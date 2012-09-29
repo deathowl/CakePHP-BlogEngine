@@ -1,19 +1,18 @@
 <?php
 // app/Controller/UsersController.php
 class UsersController extends AppController {
-
-     public $components = array(
+ public $components = array(
         'Session',
         'Auth' => array(
-            'loginRedirect' => array('controller' => 'posts', 'action' => 'index'),
-            'logoutRedirect' => array('controller' => 'posts', 'action' => 'index')
-        )
-    );
-
+        'loginRedirect' => array('controller' => 'posts', 'action'=>'index'),
+        'logoutRedirect' => array('controller' => 'posts', 'action'=>'index'),
+        'authorize' => array('Controller') 
+         )
+        );
 
     public function beforeFilter() {
         parent::beforeFilter();
-        $this->Auth->allow('register', 'logout','listall','delete'); //remove delete after login works!
+        $this->Auth->allow('register', 'logout','listall','login','edit');
     }
 
     public function login() {

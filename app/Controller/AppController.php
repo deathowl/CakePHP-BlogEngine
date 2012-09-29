@@ -37,12 +37,14 @@ class AppController extends Controller {
 	/*The default values for the components array are added here.
 	  Since we work with OOP paradigm, all  derived classes will be able to access it.
 	*/
-	  	public $components = array(
+
+        public $components = array(
         'Session',
         'Auth' => array(
-        'loginRedirect' => array('controller' => 'posts', 'action' => 'index'),
-        'logoutRedirect' => array('controller' => 'pages', 'action' => 'display', 'home'),
-        'authorize' => array('Controller') // Added this line
-    )
-);
+        'loginRedirect' =>  array('controller' => 'posts', 'action'=>'index'),
+        'logoutRedirect' => array('controller' => 'posts', 'action'=>'index'),
+        'authorize' => array('Controller') 
+         )
+        );
+
 }
