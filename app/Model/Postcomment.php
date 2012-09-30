@@ -40,6 +40,10 @@ class Postcomment extends AppModel {
 		),
 	);
 
+public $virtualFields = array(
+    'amount' => 'count(id)'
+	);
+
 /**
  * belongsTo associations
  *

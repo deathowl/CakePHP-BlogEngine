@@ -33,4 +33,24 @@ class User extends AppModel {
             )
         )
     );
+
+        var $hasMany = array(
+        'PostComment' => array(
+            'className' => 'Postcomment',
+            'foreignKey' => 'user_id',
+            'dependent' => false,
+            'conditions' => '',
+            'fields' => '',
+            'order' => 'PostComment.created DESC',
+            'limit' => '',
+            'offset' => '',
+            'exclusive' => '',
+            'finderQuery' => '',
+            'counterQuery' => ''
+        ),
+        'PostRating' => array(
+            'className'     => 'PostRating',
+            'foreignKey'    => 'user_id',
+        )
+    );
 }

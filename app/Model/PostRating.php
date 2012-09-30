@@ -63,4 +63,7 @@ class PostRating extends AppModel {
 			'order' => ''
 		)
 	);
+	public $virtualFields = array(
+    'avgscore' => ' round(avg(rating),1)'
+	);
 }

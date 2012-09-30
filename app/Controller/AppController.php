@@ -57,6 +57,7 @@ class AppController extends Controller {
     }
 
      public function beforeFilter() {
+        //We set these 2 datas here, because they will be used in every rendered page.
         $this->set('user',$this->Auth->user());
         $this->set('isadmin',$this->Auth->user('role')==='admin');
         $this->AutoLogin->settings = array(

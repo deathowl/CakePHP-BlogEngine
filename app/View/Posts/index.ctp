@@ -9,8 +9,9 @@
 		<?php echo $this->Html->image($post['Post']['relative_path_to_image'], array('alt' => $post['Post']['title'],
 			'url' => array('controller' => 'posts', 'action' => 'view', $post['Post']['id'])
 		))?>
+		<div>Hozzászólások száma: <?php echo ($post['PostComment'][0]['amount']);?></div>
+		<div>Pontszám :<?php echo $post['PostRating'][0]['avgscore'];?></div>
 	</dl>
-	</center>
 		<?php if($isadmin){ ?>
 		<td class="actions">
 			<?php echo $this->Html->link(__('Részletek'), array('action' => 'view', $post['Post']['id'])); ?>
@@ -19,6 +20,7 @@
 		</td>
 		<?php } ?>
 	</tr>
+</center>
 <?php endforeach; ?>
 	</table>
 </div>

@@ -20,11 +20,31 @@ class PostsController extends AppController {
     public function view($id) {
         $this->Post->id = $id;
         $post=$this->Post->read();
+       //     $posts = $this->Postcomment->Post->find('list');
+       // $users = $this->Postcomment->User->find('list');
         if(!file_exists(getcwd().$post['Post']['relative_path_to_image'])){ //We do not want broken image tags, do we?
             $post['Post']['relative_path_to_image']='/img/imagenotfound.gif';
         }
         $this->set('post',$post );
 
+    }
+
+    public function comment(){
+         if ($this->request->is('post')) {
+            var_dump($this->request->data);
+            $this->LoadModel('Postcomment');
+            exit();
+            if($this->Postcomment->save($this->request->data)){
+                $this->Session->setFlash('A hozzászólást mentettük');
+                
+            }
+            else{
+                $this->Session->setFlash('A hózzászólás nem sikerült');
+                
+            }
+        }
+
+        $this->redirect(array('action' => 'view',$this->request->data['post_id']));
     }
 
     public function add() {
