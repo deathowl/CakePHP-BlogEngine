@@ -42,9 +42,16 @@ class AppController extends Controller {
         'Session',
         'Auth' => array(
         'loginRedirect' =>  array('controller' => 'posts', 'action'=>'index'),
-        'logoutRedirect' => array('controller' => 'posts', 'action'=>'index'),
-        'authorize' => array('Controller') 
+        'logoutRedirect' => array('controller' => 'posts', 'action'=>'index')
          )
         );
+    public function isAdministrator($user) {
+    // Admin can access admin actions
+        if (isset($user['role']) && $user['role'] === 'admin') {
+            return true;
+        }
+    // Default deny
+    return false;
+    }
 
 }

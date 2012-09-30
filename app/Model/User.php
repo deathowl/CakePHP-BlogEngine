@@ -25,7 +25,9 @@ class User extends AppModel {
         ),
         'role' => array(
             'valid' => array(
-                'rule' => array('inList', array('admin', 'author')),
+                'rule' => array('inList', array('admin', 'user')), //Differenciate 2 user groups.
+                //Will be used by our so called authentication routines.
+                // Of course new users are registered as plain users. Only admins can add new admins
                 'message' => 'Please enter a valid role',
                 'allowEmpty' => false
             )
