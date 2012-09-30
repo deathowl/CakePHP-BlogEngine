@@ -15,14 +15,12 @@
  * @since         CakePHP(tm) v 0.10.0.1076
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
-
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 	<?php echo $this->Html->charset(); ?>
 	<title>
-		<?php echo $cakeDescription ?>:
 		<?php echo $title_for_layout; ?>
 	</title>
 	<?php
@@ -35,10 +33,24 @@
 		echo $this->fetch('script');
 	?>
 </head>
-<body>
+<body>	
 	<div id="container">
 		<div id="header">
-			<h1><?php echo $this->Html->link('Garbage of the internet, the weblog','#'); ?></h1>
+		<h1 style="right:5px;position:absolute">
+			<?php if($user==NULL){ 
+	 			echo $this->Html->link('Lépj be','/users/login'); 
+	 			echo $this->Html->link('regisztrálj','/users/register');
+  			}
+ 			else{
+ 				echo __('Üdvözlünk, ').$user['username'].' !';
+ 				if($isadmin){
+ 					echo $this->Html->link('Adminisztrációs felület','/admin/index');
+ 				}
+ 				echo $this->Html->link('kilépés','/users/logout');
+				}
+ 			?>
+ 		</h1>
+			<h1><?php echo $this->Html->link('Webszemét, the weblog','/'); ?></h1>
 		</div>
 		<div id="content">
 

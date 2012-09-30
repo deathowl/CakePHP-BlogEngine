@@ -1,38 +1,32 @@
 <div class="posts index">
+
 	<?php
 	foreach ($posts as $post): ?>
 	<tr>
-		<td><?php echo h($post['Post']['id']); ?>&nbsp;</td>
-		<td><?php echo h($post['Post']['title']); ?>&nbsp;</td>
-		<td><?php echo h($post['Post']['relative_path_to_image']); ?>&nbsp;</td>
-		<td><?php echo h($post['Post']['created']); ?>&nbsp;</td>
-		<td><?php echo h($post['Post']['modified']); ?>&nbsp;</td>
+	<center>
+	<h2><?php echo $this->Html->link($post['Post']['title'], array('action' => 'view', $post['Post']['id'])); ?></h2>
+	<dl>
+		<?php echo $this->Html->image($post['Post']['relative_path_to_image'], array('alt' => $post['Post']['title'],
+			'url' => array('controller' => 'posts', 'action' => 'view', $post['Post']['id'])
+		))?>
+	</dl>
+	</center>
+		<?php if($isadmin){ ?>
 		<td class="actions">
-			<?php echo $this->Html->link(__('View'), array('action' => 'view', $post['Post']['id'])); ?>
-			<?php echo $this->Html->link(__('Edit'), array('action' => 'edit', $post['Post']['id'])); ?>
-			<?php echo $this->Form->postLink(__('Delete'), array('action' => 'delete', $post['Post']['id']), null, __('Are you sure you want to delete # %s?', $post['Post']['id'])); ?>
+			<?php echo $this->Html->link(__('Részletek'), array('action' => 'view', $post['Post']['id'])); ?>
+			<?php echo $this->Html->link(__('Szerkesztés'), array('action' => 'edit', $post['Post']['id'])); ?>
+			<?php echo $this->Form->postLink(__('Törlés'), array('action' => 'delete', $post['Post']['id']), null, __('Biztos, hogy törlöd # %s?', $post['Post']['id'])); ?>
 		</td>
+		<?php } ?>
 	</tr>
 <?php endforeach; ?>
 	</table>
-	<p>
-	<?php
-	echo $this->Paginator->counter(array(
-	'format' => __('Page {:page} of {:pages}, showing {:current} records out of {:count} total, starting on record {:start}, ending on {:end}')
-	));
-	?>	</p>
-
-	<div class="paging">
-	<?php
-		echo $this->Paginator->prev('< ' . __('previous'), array(), null, array('class' => 'prev disabled'));
-		echo $this->Paginator->numbers(array('separator' => ''));
-		echo $this->Paginator->next(__('next') . ' >', array(), null, array('class' => 'next disabled'));
-	?>
-	</div>
 </div>
+<?php if($isadmin){ ?>
 <div class="actions">
 	<h3><?php echo __('Actions'); ?></h3>
 	<ul>
-		<li><?php echo $this->Html->link(__('New Post'), array('action' => 'add')); ?></li>
+		<li><?php echo $this->Html->link(__('Új Poszt'), array('action' => 'add')); ?></li>
 	</ul>
 </div>
+<?php } ?>

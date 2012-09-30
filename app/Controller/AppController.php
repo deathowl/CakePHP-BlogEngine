@@ -1,4 +1,4 @@
-=<?php
+<?php
 /**
  * Application level Controller
  *
@@ -22,6 +22,7 @@
 
 App::uses('Controller', 'Controller');
 App::uses('AuthComponent', 'Controller/Component');
+App::uses('AttemptController','Controller/Component');
 
 
 /**
@@ -38,8 +39,9 @@ class AppController extends Controller {
 	  Since we work with OOP paradigm, all  derived classes will be able to access it.
 	*/
 
-        public $components = array(
+    public $components = array(
         'Session',
+        'AutoLogin',
         'Auth' => array(
         'loginRedirect' =>  array('controller' => 'posts', 'action'=>'index'),
         'logoutRedirect' => array('controller' => 'posts', 'action'=>'index')
@@ -52,6 +54,32 @@ class AppController extends Controller {
         }
     // Default deny
     return false;
+    }
+
+     public function beforeFilter() {
+        $this->set('user',$this->Auth->user());
+        $this->set('isadmin',$this->Auth->user('role')==='admin');
+        $this->AutoLogin->settings = array(
+        // Model settings
+        'model' => 'Member',
+        'username' => 'username',
+        'password' => 'password',
+ 
+        // Controller settings
+        'plugin' => '',
+        'controller' => 'users',
+        'loginAction' => 'login',
+        'logoutAction' => 'logout',
+ 
+        // Cookie settings
+        'cookieName' => 'rememberMeWeblog',
+        'expires' => '+1 month',
+ 
+        // Process logic
+        'active' => true,
+        'redirect' => true,
+        'requirePrompt' => true
+        );
     }
 
 }

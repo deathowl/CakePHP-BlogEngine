@@ -1,13 +1,12 @@
 <div class="users form">
 <?php echo $this->Form->create('User'); ?>
 	<fieldset>
-		<legend><?php echo __('Regisztrációs űrlap'); ?></legend>
+		<legend><?php echo __('Felhasználó hozzáadása'); ?></legend>
 	<?php
 		echo $this->Form->input('username',array('label' => 'Felhasználónév'));
-		echo $this->Form->input('password',array('label' => 'jelszó','type'=>'password'));
-		echo $this->Form->hidden('result', array('value' => $captcha_result));
-		echo $this->Form->input('captcha', array('label' => 'Ha nem vagy robot, add meg a választ, '.$captcha));
-
+		echo $this->Form->input('password',array('label' => 'jelszó','type'=>'text'));
+		$options = array('user' => 'Felhasználó', 'admin' => 'Adminisztrátor');
+		echo $this->Form->select('role', $options,array('label'=>'Szerepkör','value'=>'user'))
 	?>
 	</fieldset>
 <?php echo $this->Form->end(__('Submit')); ?>

@@ -1,33 +1,13 @@
 <div class="posts view">
-<h2><?php  echo __('Post'); ?></h2>
+<center>
+<h2><?php echo h($post['Post']['title']);?></h2>
 	<dl>
-		<dt><?php echo __('Id'); ?></dt>
-		<dd>
-			<?php echo h($post['Post']['id']); ?>
-			&nbsp;
-		</dd>
-		<dt><?php echo __('Title'); ?></dt>
-		<dd>
-			<?php echo h($post['Post']['title']); ?>
-			&nbsp;
-		</dd>
-		<dt><?php echo __('Relative Path To Image'); ?></dt>
-		<dd>
-			<?php echo h($post['Post']['relative_path_to_image']); ?>
-			&nbsp;
-		</dd>
-		<dt><?php echo __('Created'); ?></dt>
-		<dd>
-			<?php echo h($post['Post']['created']); ?>
-			&nbsp;
-		</dd>
-		<dt><?php echo __('Modified'); ?></dt>
-		<dd>
-			<?php echo h($post['Post']['modified']); ?>
-			&nbsp;
-		</dd>
+		<?php echo $this->Html->image($post['Post']['relative_path_to_image'], array('alt' => $post['Post']['title']))?>
 	</dl>
+</center>
 </div>
+
+<?php if($isadmin) {?>
 <div class="actions">
 	<h3><?php echo __('Actions'); ?></h3>
 	<ul>
@@ -37,3 +17,4 @@
 		<li><?php echo $this->Html->link(__('New Post'), array('action' => 'add')); ?> </li>
 	</ul>
 </div>
+<?php } ?>

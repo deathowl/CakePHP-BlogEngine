@@ -3,16 +3,27 @@ class PostsController extends AppController {
     public $helpers = array('Html', 'Form');
 
     public function beforeFilter() {
+        parent::beforeFilter();
         $this->Auth->allow('index', 'view'); //Allow users, who are not logged in view the index and details page .
     }
 
     public function index() {
-        $this->set('posts', $this->Post->find('all'));
+        $posts=$this->Post->find('all');
+        for($i = 0; $i < count($posts); ++$i) {//eliminate all broken image links
+            if(!file_exists(getcwd().$post['Post']['relative_path_to_image'])){ //We do not want broken image tags, do we?
+                $posts[$i]['Post']['relative_path_to_image']='/img/imagenotfound.gif';
+            }
+        }
+        $this->set('posts',$posts);
     }
 
     public function view($id) {
         $this->Post->id = $id;
-        $this->set('post', $this->Post->read());
+        $post=$this->Post->read();
+        if(!file_exists(getcwd().$post['Post']['relative_path_to_image'])){ //We do not want broken image tags, do we?
+            $post['Post']['relative_path_to_image']='/img/imagenotfound.gif';
+        }
+        $this->set('post',$post );
 
     }
 
@@ -51,8 +62,6 @@ class PostsController extends AppController {
     }
     public function delete($id) {
     //Only admins can delete posts
-    echo "WAT?";
-    exit();
      if (!parent::isAdministrator($this->Auth->user())) {
             $this->redirect('/');
         }
