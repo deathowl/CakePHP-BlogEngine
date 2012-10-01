@@ -8,7 +8,8 @@ class PostsController extends AppController {
     }
 
     public function index() {
-        $posts=$this->Post->find('all');
+        //$posts=$this->Post->find('all');
+        $posts=$this->Post->getOrderedList();
         for($i = 0; $i < count($posts); ++$i) {//eliminate all broken image links
             if(!file_exists(getcwd().$post['Post']['relative_path_to_image'])){ //We do not want broken image tags, do we?
                 $posts[$i]['Post']['relative_path_to_image']='/img/imagenotfound.gif';
@@ -20,31 +21,18 @@ class PostsController extends AppController {
     public function view($id) {
         $this->Post->id = $id;
         $post=$this->Post->read();
-       //     $posts = $this->Postcomment->Post->find('list');
-       // $users = $this->Postcomment->User->find('list');
+        //We can rate a picture only once!
+        $this->LoadModel('PostRatings');
+        $ratings=$this->PostRatings->find('first',array('conditions'=>array('post_id' => $id,'AND'=>array('user_id'=>$this->Auth->user('id')))));
+        $this->set('alreadyrated',$ratings==NULL);
+        $comments=$this->Post->getComments($id);
+        $this->set('comments',$comments);
+
         if(!file_exists(getcwd().$post['Post']['relative_path_to_image'])){ //We do not want broken image tags, do we?
             $post['Post']['relative_path_to_image']='/img/imagenotfound.gif';
         }
         $this->set('post',$post );
 
-    }
-
-    public function comment(){
-         if ($this->request->is('post')) {
-            var_dump($this->request->data);
-            $this->LoadModel('Postcomment');
-            exit();
-            if($this->Postcomment->save($this->request->data)){
-                $this->Session->setFlash('A hozzászólást mentettük');
-                
-            }
-            else{
-                $this->Session->setFlash('A hózzászólás nem sikerült');
-                
-            }
-        }
-
-        $this->redirect(array('action' => 'view',$this->request->data['post_id']));
     }
 
     public function add() {

@@ -7,7 +7,7 @@ App::uses('AppModel', 'Model');
  * @property User $User
  */
 class Postcomment extends AppModel {
-
+	public  $name="Postcomment";
 /**
  * Validation rules
  *
@@ -49,7 +49,7 @@ public $virtualFields = array(
  *
  * @var array
  */
-	public $belongsTo = array(
+	/*public $belongsTo = array(
 		'Post' => array(
 			'className' => 'Post',
 			'foreignKey' => 'post_id',
@@ -64,5 +64,5 @@ public $virtualFields = array(
 			'fields' => '',
 			'order' => ''
 		)
-	);
+	);*/
 }
